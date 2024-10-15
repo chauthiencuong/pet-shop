@@ -1,0 +1,163 @@
+﻿@model ChauThienCuong_PetShop.Models.HomeModel
+
+@{
+    ViewBag.Title = "GetAllProducts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Tất cả sản phẩm</h2>
+
+<header class="mb-3">
+    <div class="form-inline">
+        <select class="mr-2 form-control">
+            <option>Latest items</option>
+            <option>Trending</option>
+            <option>Most Popular</option>
+            <option>Cheapest</option>
+        </select>
+        <div class="btn-group">
+            <a href="page-listing-grid.html" class="btn btn-light active" data-toggle="tooltip" title="List view">
+                <i class="fa fa-bars"></i>
+            </a>
+            <a href="page-listing-large.html" class="btn btn-light" data-toggle="tooltip" title="Grid view">
+                <i class="fa fa-th"></i>
+            </a>
+        </div>
+    </div>
+</header><!-- sect-heading -->
+
+<div class="row">
+    @foreach (var item in Model.ListProduct)
+    {
+        <div class="col-md-3">
+            <figure class="card card-product-grid">
+                <div class="img-wrap">
+
+                    <img src="@Url.Content("~/Context/images/productImage/" + item.image)">
+                </div>
+                <figcaption class="info-wrap">
+                    <a href="@Url.Content("~/Product/Details/" + item.id)" class="title mb-2">@item.name</a>
+                    <div class="price-wrap">
+                        <span class="price">@string.Format("{0:C}", item.price)</span>
+                        <small class="text-muted">/per item</small>
+                    </div>
+
+
+
+                </figcaption>
+            </figure>
+        </div> <!-- col.// -->
+    }
+</div> <!-- row end.// -->
+
+
+
+<nav class="mb-4" aria-label="Page navigation sample">
+    <ul class="pagination">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+
+
+<div class="box text-center">
+    <p>Did you find what you were looking for？</p>
+    <a href="" class="btn btn-light">Yes</a>
+    <a href="" class="btn btn-light">No</a>
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION SUBSCRIBE  ========================= -->
+<section class="padding-y-lg bg-light border-top">
+    <div class="container">
+
+        <p class="pb-2 text-center">Delivering the latest product trends and industry news straight to your inbox</p>
+
+        <div class="row justify-content-md-center">
+            <div class="col-lg-4 col-sm-6">
+                <form class="form-row">
+                    <div class="col-8">
+                        <input class="form-control" placeholder="Your Email" type="email">
+                    </div> <!-- col.// -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-block btn-warning"> <i class="fa fa-envelope"></i> Subscribe </button>
+                    </div> <!-- col.// -->
+                </form>
+                <small class="form-text">We’ll never share your email address with a third-party. </small>
+            </div> <!-- col-md-6.// -->
+        </div>
+
+
+    </div>
+</section>
+<!-- ========================= SECTION SUBSCRIBE END// ========================= -->
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer bg-secondary">
+    <div class="container">
+        <section class="footer-top padding-y-lg text-white">
+            <div class="row">
+                <aside class="col-md col-6">
+                    <h6 class="title">Brands</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">Adidas</a></li>
+                        <li> <a href="#">Puma</a></li>
+                        <li> <a href="#">Reebok</a></li>
+                        <li> <a href="#">Nike</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-md col-6">
+                    <h6 class="title">Company</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">About us</a></li>
+                        <li> <a href="#">Career</a></li>
+                        <li> <a href="#">Find a store</a></li>
+                        <li> <a href="#">Rules and terms</a></li>
+                        <li> <a href="#">Sitemap</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-md col-6">
+                    <h6 class="title">Help</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#">Contact us</a></li>
+                        <li> <a href="#">Money refund</a></li>
+                        <li> <a href="#">Order status</a></li>
+                        <li> <a href="#">Shipping info</a></li>
+                        <li> <a href="#">Open dispute</a></li>
+                    </ul>
+                </aside>
+                <aside class="col-md col-6">
+                    <h6 class="title">Account</h6>
+                    <ul class="list-unstyled">
+                        <li> <a href="#"> User Login </a></li>
+                        <li> <a href="#"> User register </a></li>
+                        <li> <a href="#"> Account Setting </a></li>
+                        <li> <a href="#"> My Orders </a></li>
+                    </ul>
+                </aside>
+                <aside class="col-md">
+                    <h6 class="title">Social</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#"> <i class="fab fa-facebook"></i> Facebook </a></li>
+                        <li><a href="#"> <i class="fab fa-twitter"></i> Twitter </a></li>
+                        <li><a href="#"> <i class="fab fa-instagram"></i> Instagram </a></li>
+                        <li><a href="#"> <i class="fab fa-youtube"></i> Youtube </a></li>
+                    </ul>
+                </aside>
+            </div> <!-- row.// -->
+        </section>	<!-- footer-top.// -->
+
+        <section class="footer-bottom text-center">
+
+            <p class="text-white">Privacy Policy - Terms of Use - User Information Legal Enquiry Guide</p>
+            <p class="text-muted"> &copy 2019 Company name, All rights reserved </p>
+            <br>
+        </section>
+    </div><!-- //container -->
+</footer>

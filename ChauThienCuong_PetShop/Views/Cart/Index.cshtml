@@ -1,0 +1,194 @@
+﻿@model IEnumerable<ChauThienCuong_PetShop.Models.CartModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+   $(function () {
+    $(".removecart").click(function () {
+        var model = {};
+        model.Id = $(this).attr("id").split("-")[1];
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Remove", "Cart")',
+            data: JSON.stringify(model),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+                alert("Hãy chắc chắn bạn muốn xóa sản phẩm này")
+                var count = parseInt($('#CartCount').text()) - 1;
+                $('#CartCount').text(count);
+                $("#product-" + model.Id).remove();
+            },
+            error: function () {
+                alert("Lỗi trong khi xóa sản phẩm trong giỏ hàng!");
+            }
+        });
+        return false;
+    });
+});
+</script>
+
+<script>
+    // Đợi cho trang tải hoàn thành trước khi thực hiện JavaScript
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lặp qua tất cả các hàng trong bảng
+        document.querySelectorAll('.table-shopping-cart tbody tr').forEach(function (row) {
+            // Lấy giá tiền và số lượng từ các phần tử HTML
+            var price = parseFloat(row.querySelector('.price').innerText);
+            var quantity = parseFloat(row.querySelector('input[type="text"]').value);
+            // Tính tổng tiền
+            var subtotal = price * quantity;
+            // Hiển thị kết quả tính toán trong cột "Thành tiền"
+            row.querySelector('.subtotal').innerText = subtotal;
+        });
+    });
+</script>
+
+<script>
+    // Đợi cho trang tải hoàn thành trước khi thực hiện JavaScript
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lặp qua tất cả các hàng trong bảng
+        var total = 0;
+        document.querySelectorAll('.table-shopping-cart tbody tr').forEach(function (row) {
+            // Lấy giá trị "Thành tiền" từ mỗi hàng và cộng vào tổng cộng
+            var subtotal = parseFloat(row.querySelector('.subtotal').innerText);
+            total += subtotal;
+        });
+
+        // Hiển thị tổng cộng trong phần tử "Tổng cộng"
+        document.querySelector('.dlist-align .h5 strong').innerText = total;
+    });
+</script>
+
+<section class="section-content padding-y">
+    <div class="container">
+
+        <div class="row">
+            <main class="col-md-9">
+                <div class="card">
+
+                    <table class="table table-borderless table-shopping-cart">
+                        <thead class="text-muted">
+                            <tr class="small text-uppercase">
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col" width="120">Số lượng</th>
+                                <th scope="col" width="120">Giá tiền</th>
+                                <th scope="col" width="120">Thành tiền</th>
+                                <th scope="col" class="text-right" width="200"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr id="product-@item.Product.id">
+                                        <td>
+                                            <figure class="itemside">
+                                                <div class="aside"><img src="~/Context/images/productImage/@item.Product.image" class="img-sm"></div>
+                                                <figcaption class="info">
+                                                    <a href="#" class="title text-dark">@item.Product.name</a>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <input type="text" value="@item.Quantity" />
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap">
+                                                <var class="price">@item.Product.price</var>
+                                            </div> <!-- price-wrap .// -->
+                                        </td>
+                                        <td>
+                                            <div class="subtotal">0</div> <!-- Giá trị ban đầu của "Thành tiền" -->
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="hidden" value="@item.Product.id" class="productid" />
+                                            <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light" data-toggle="tooltip"> <i class="fa fa-heart"></i></a>
+
+                                            <a href="" class="btn btn-danger removecart" id="removecart-@item.Product.id"> Remove</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <p>Không có sản phẩm trong giỏ hàng</p>
+                            }
+                        </tbody>
+                    </table>
+
+                    <div class="card-body border-top">
+                        <a href="@Url.Action("Index", "Payment")" class="btn btn-primary float-md-right"> Thanh toán <i class="fa fa-chevron-right"></i> </a>
+                        <a href="#" class="btn btn-light"> <i class="fa fa-chevron-left"></i> Continue shopping </a>
+                    </div>
+                </div> <!-- card.// -->
+
+                <div class="alert alert-success mt-3">
+                    <p class="icontext"><i class="icon text-success fa fa-truck"></i> Free Delivery within 1-2 weeks</p>
+                </div>
+
+            </main> <!-- col.// -->
+            <aside class="col-md-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Have coupon?</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="" placeholder="Coupon code">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary">Apply</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div> <!-- card-body.// -->
+                </div>  <!-- card .// -->
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Tổng cộng:</dt>
+                            <dd class="text-right  h5"><strong>0</strong></dd>
+                        </dl>
+                        <hr>
+                        <p class="text-center mb-3">
+                            <img src="~/Context/images/misc/payments.png" height="26">
+                        </p>
+
+                    </div> <!-- card-body.// -->
+                </div>  <!-- card .// -->
+            </aside> <!-- col.// -->
+        </div>
+
+    </div> <!-- container .//  -->
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name border-top padding-y">
+    <div class="container">
+        <h6>Payment and refund policy</h6>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+
+    </div><!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
